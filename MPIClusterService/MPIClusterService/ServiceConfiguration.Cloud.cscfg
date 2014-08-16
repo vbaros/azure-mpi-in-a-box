@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ServiceConfiguration serviceName="MPIClusterService" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" osFamily="3" osVersion="*" schemaVersion="2014-01.2.3">
+  <Role name="MPIClusterRole">
+    <Instances count="2" />
+    <ConfigurationSettings>
+      <Setting name="adminuser" value="admin" />
+      <Setting name="adminuser.publickey" value="<YOUR-PUBLICKEY-FOR-ADMINUSER>" />
+      <Setting name="jobuser" value="jobuser" />
+      <Setting name="jobuser.publickey" value="<YOUR-PUBLICKEY-FOR-JOBUSER>" />
+      <Setting name="blob.storageurl" value="http://rescale.blob.core.windows.net" />
+    </ConfigurationSettings>
+    <Certificates></Certificates>
+  </Role>
+</ServiceConfiguration>

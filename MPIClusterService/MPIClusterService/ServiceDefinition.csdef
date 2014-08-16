@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ServiceDefinition name="MPIClusterService" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition" schemaVersion="2014-01.2.3">
+  <WorkerRole name="MPIClusterRole" vmsize="A9">
+    <Startup>
+      <Task commandLine="Startup.cmd" executionContext="elevated" taskType="simple">
+        <Environment>
+          <Variable name="ADMIN_USER">
+            <RoleInstanceValue xpath="/RoleEnvironment/CurrentInstance/ConfigurationSettings/ConfigurationSetting[@name='adminuser']/@value" />
+          </Variable>
+          <Variable name="ADMIN_USER_PUBKEY">
+            <RoleInstanceValue xpath="/RoleEnvironment/CurrentInstance/ConfigurationSettings/ConfigurationSetting[@name='adminuser.publickey']/@value" />
+          </Variable>
+          <Variable name="JOB_USER">
+            <RoleInstanceValue xpath="/RoleEnvironment/CurrentInstance/ConfigurationSettings/ConfigurationSetting[@name='jobuser']/@value" />
+          </Variable>
+          <Variable name="JOB_USER_PUBKEY">
+            <RoleInstanceValue xpath="/RoleEnvironment/CurrentInstance/ConfigurationSettings/ConfigurationSetting[@name='jobuser.publickey']/@value" />
+          </Variable>
+          <Variable name="BLOB_STORAGEURL">
+            <RoleInstanceValue xpath="/RoleEnvironment/CurrentInstance/ConfigurationSettings/ConfigurationSetting[@name='blob.storageurl']/@value" />
+          </Variable>
+          <Variable name="LOCAL_STORAGE">
+            <RoleInstanceValue xpath="/RoleEnvironment/CurrentInstance/LocalResources/LocalResource[@name='LocalStorage']/@path" />
+          </Variable>
+          <Variable name="DEPLOYMENT_ID">
+            <RoleInstanceValue xpath="/RoleEnvironment/Deployment/@id" />
+          </Variable>
+          <Variable name="ROLE_ID">
+            <RoleInstanceValue xpath="/RoleEnvironment/CurrentInstance/@id" />
+          </Variable>
+          <Variable name="ROLE_NAME">
+            <RoleInstanceValue xpath="/RoleEnvironment/CurrentInstance/@roleName" />
+          </Variable>
+        </Environment>
+      </Task>
+    </Startup>
+    <Runtime executionContext="elevated"></Runtime>
+    <Imports></Imports>
+    <Endpoints>
+      <InternalEndpoint name="MPI" protocol="any"></InternalEndpoint>
+      <InstanceInputEndpoint name="SSHTunnel" protocol="tcp" localPort="22">
+        <AllocatePublicPortFrom>
+          <FixedPortRange max="20106" min="10106" />
+        </AllocatePublicPortFrom>
+      </InstanceInputEndpoint>
+      <InternalEndpoint name="SMB" protocol="tcp" port="445" />
+    </Endpoints>
+    <ConfigurationSettings>
+      <Setting name="adminuser" />
+      <Setting name="adminuser.publickey" />
+      <Setting name="jobuser" />
+      <Setting name="jobuser.publickey" />
+      <Setting name="blob.storageurl" />
+    </ConfigurationSettings>
+    <LocalResources>
+      <LocalStorage name="LocalStorage" sizeInMB="1782580" cleanOnRoleRecycle="false" />
+    </LocalResources>
+  </WorkerRole>
+</ServiceDefinition>
