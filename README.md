@@ -9,7 +9,7 @@ You need the following installed in order to package up the project:
 * Visual Studio 2013
 * Azure SDK 2.3
 
-Before packaging the CloudService in Visual Studio, you will also need to update several placeholder values in the .cscfg file that is part of the project:
+Before packaging the Cloud Service in Visual Studio, you will also need to update several placeholder values in the .cscfg file that is part of the project:
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -80,5 +80,5 @@ mpiexec -machinefile machinefile ~/work/shared/osu_latency.exe
 
 You should do this instead:
 ```sh
-mpiexec -machinefile machinefile $(cygpath ~/work/shared/osu_latency.exe)
+mpiexec -machinefile machinefile $(cygpath -w ~/work/shared/osu_latency.exe)
 ```
